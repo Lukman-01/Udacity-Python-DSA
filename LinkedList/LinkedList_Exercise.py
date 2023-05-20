@@ -30,22 +30,48 @@ class LinkedList(object):
         """Get an element from a particular position.
         Assume the first position is "1".
         Return "None" if position is not in the list."""
-        return None
+        if position < 1:
+            return None
+        current = self.head
+        for _ in range(1, position):
+            if current:
+                current = current.next
+            else:
+                return None
+        return current
     
     def insert(self, new_element, position):
         """Insert a new node at the given position.
         Assume the first position is "1".
         Inserting at position 3 means between
         the 2nd and 3rd elements."""
-        pass
-    
+        if position == 1:
+            new_element.next = self.head
+            self.head = new_element
+        else:
+            current = self.head
+            for _ in range(1, position - 1):
+                if current:
+                    current = current.next
+                else:
+                    return
+            if current:
+                new_element.next = current.next
+                current.next = new_element
     
     def delete(self, value):
         """Delete the first node with a given value."""
-        pass
+        current = self.head
+        if current and current.value == value:
+            self.head = current.next
+        else:
+            while current and current.next:
+                if current.next.value == value:
+                    current.next = current.next.next
+                    return
+                current = current.next
 
-# Test cases
-# Set up some Elements
+ # Set up some Elements
 e1 = Element(1)
 e2 = Element(2)
 e3 = Element(3)
@@ -56,22 +82,22 @@ ll = LinkedList(e1)
 ll.append(e2)
 ll.append(e3)
 
-# # Test get_position
-# # Should print 3
-# print ll.head.next.next.value
-# # Should also print 3
-# print ll.get_position(3).value
+# Test get_position
+# Should print 3
+print(ll.head.next.next.value)
+# Should also print 3
+print(ll.get_position(3).value)
 
-# # Test insert
-# ll.insert(e4,3)
-# # Should print 4 now
-# print ll.get_position(3).value
+# Test insert
+ll.insert(e4, 3)
+# Should print 4 now
+print(ll.get_position(3).value)
 
-# # Test delete
-# ll.delete(1)
-# # Should print 2 now
-# print ll.get_position(1).value
-# # Should print 4 now
-# print ll.get_position(2).value
-# # Should print 3 now
-# print ll.get_position(3).value
+# Test delete
+ll.delete(1)
+# Should print 2 now
+print(ll.get_position(1).value)
+# Should print 4 now
+print(ll.get_position(2).value)
+# Should print 3 now
+print(ll.get_position(3).value)
